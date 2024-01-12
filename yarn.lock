@@ -3984,6 +3984,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tabler/icons-react@npm:^2.45.0":
+  version: 2.45.0
+  resolution: "@tabler/icons-react@npm:2.45.0"
+  dependencies:
+    "@tabler/icons": "npm:2.45.0"
+    prop-types: "npm:^15.7.2"
+  peerDependencies:
+    react: ^16.5.1 || ^17.0.0 || ^18.0.0
+  checksum: a153d30d88b87489b44af9dc73e82bc13a9ae18ba33c47e73b8efbe6b36e5a9e61c924aa4f297f6e0a238b630c5b2ade77db2dcad8b1f21c43b356d3ad38086b
+  languageName: node
+  linkType: hard
+
+"@tabler/icons@npm:2.45.0":
+  version: 2.45.0
+  resolution: "@tabler/icons@npm:2.45.0"
+  checksum: e221e091554839771774d0d8438d434987fcc7096892b24e53ef4fc78fe3b8087cc047293e3eb2084b3b5b9173c39dbf5aaff8cbbe78be142bc2bf55cf178ec2
+  languageName: node
+  linkType: hard
+
 "@testing-library/dom@npm:^9.0.0, @testing-library/dom@npm:^9.3.3":
   version: 9.3.3
   resolution: "@testing-library/dom@npm:9.3.3"
@@ -9025,6 +9044,7 @@ __metadata:
     "@storybook/react": "npm:^7.6.6"
     "@storybook/react-vite": "npm:^7.6.6"
     "@storybook/testing-library": "npm:^0.2.2"
+    "@tabler/icons-react": "npm:^2.45.0"
     "@testing-library/dom": "npm:^9.3.3"
     "@testing-library/jest-dom": "npm:^6.1.5"
     "@testing-library/react": "npm:^14.1.2"
