@@ -1,36 +1,22 @@
 import { ActionIcon, NavLink, TextInput } from '@mantine/core';
 import { IconGauge, IconFingerprint, IconSearch } from '@tabler/icons-react';
 import { useState } from 'react';
-import api from '@/components/atoms/AxiosIns';
-import { useSetBookVolumes } from '@/components/hooks/useData';
 import { ColorSchemeToggle } from '@/components/ColorSchemeToggle/ColorSchemeToggle';
+import { Link } from 'react-router-dom';
 
 export function CustomNavbar() {
   const [value, setValue] = useState('');
-  const setBookVolumes = useSetBookVolumes();
-
-  async function fetchBookData() {
-    try {
-      const response = await api.get('/volumes', {
-        params: {
-          q: value,
-        },
-      });
-      setBookVolumes(response?.data?.items);
-      console.log('Book data:', response.data);
-    } catch (error) {
-      console.error('Error fetching book data:', error);
-    }
-  }
 
   return (
     <>
       <TextInput
         placeholder="En az 3 harf ile bir kitap arayınız."
         rightSection={
-          <ActionIcon variant="subtle" onClick={() => fetchBookData()}>
-            <IconSearch size="1rem" stroke={2} />
-          </ActionIcon>
+          <Link to={`/search/${value}`}>
+            <ActionIcon variant="subtle">
+              <IconSearch size="1rem" stroke={2} />
+            </ActionIcon>
+          </Link>
         }
         value={value}
         onChange={(event) => setValue(event.currentTarget.value)}
