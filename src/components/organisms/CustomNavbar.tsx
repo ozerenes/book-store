@@ -1,7 +1,6 @@
 import { ActionIcon, NavLink, TextInput } from '@mantine/core';
 import { IconGauge, IconFingerprint, IconSearch } from '@tabler/icons-react';
 import { useState } from 'react';
-import { ColorSchemeToggle } from '@/components/ColorSchemeToggle/ColorSchemeToggle';
 import { Link } from 'react-router-dom';
 
 export function CustomNavbar() {
@@ -10,7 +9,7 @@ export function CustomNavbar() {
   return (
     <>
       <TextInput
-        placeholder="En az 3 harf ile bir kitap arayınız."
+        placeholder="Kitap yada yazar arayın..."
         rightSection={
           <Link to={`/search/${value}`}>
             <ActionIcon variant="subtle">
@@ -47,7 +46,6 @@ export function CustomNavbar() {
         <NavLink label="Second child link" href="#required-for-focus" />
         <NavLink label="Third child link" href="#required-for-focus" />
       </NavLink>
-      <ColorSchemeToggle />
     </>
   );
 }
