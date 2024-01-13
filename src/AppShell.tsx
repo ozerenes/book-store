@@ -1,4 +1,4 @@
-import { AppShell, Burger, Group, ScrollArea, Skeleton, Text } from '@mantine/core';
+import { AppShell, Burger, Group, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Router } from './Router';
 import { IconBook2 } from '@tabler/icons-react';
