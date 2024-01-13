@@ -1,19 +1,22 @@
-import { ActionIcon, Input, NavLink, TextInput } from '@mantine/core';
+import { ActionIcon, NavLink, TextInput } from '@mantine/core';
 import { IconGauge, IconFingerprint, IconSearch } from '@tabler/icons-react';
 import { useState } from 'react';
 import api from '@/components/atoms/AxiosIns';
+import { useSetBookVolumes } from '@/components/hooks/useData';
+import { ColorSchemeToggle } from '@/components/ColorSchemeToggle/ColorSchemeToggle';
 
 export function CustomNavbar() {
   const [value, setValue] = useState('');
+  const setBookVolumes = useSetBookVolumes();
 
   async function fetchBookData() {
     try {
       const response = await api.get('/volumes', {
         params: {
-          q: value, // Your search query
+          q: value,
         },
       });
-
+      setBookVolumes(response?.data?.items);
       console.log('Book data:', response.data);
     } catch (error) {
       console.error('Error fetching book data:', error);
@@ -58,6 +61,7 @@ export function CustomNavbar() {
         <NavLink label="Second child link" href="#required-for-focus" />
         <NavLink label="Third child link" href="#required-for-focus" />
       </NavLink>
+      <ColorSchemeToggle />
     </>
   );
 }
