@@ -2,10 +2,10 @@ import { ActionIcon, AppShell, Burger, Group, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Router } from './Router';
 import { IconBook2, IconShoppingCart } from '@tabler/icons-react';
-import { CustomNavbar } from '@/components/organisms/CustomNavbar';
-import { BrowserRouter } from 'react-router-dom';
+import { CustomNavbar } from '@/components/templates/CustomNavbar';
+import { BrowserRouter, Link } from 'react-router-dom';
 import { useBookVolumes } from '@/components/hooks/useData';
-import { ColorSchemeToggle } from '@/components/ColorSchemeToggle/ColorSchemeToggle';
+import { ColorSchemeToggle } from '@/components/atoms/ColorSchemeToggle';
 export function CustomAppShell() {
   const [opened, { toggle }] = useDisclosure();
   const cart = useBookVolumes();
@@ -25,12 +25,18 @@ export function CustomAppShell() {
               <Text>Book Store</Text>
             </Group>
             <Group>
-              <ActionIcon px={15} size="xl" miw={80} variant="default">
-                <IconShoppingCart />
-                <Text fw={500} ml={10}>
-                  {cart.length}
-                </Text>
-              </ActionIcon>
+              <Link to={`/cart-detail`}>
+                <ActionIcon px={15} size="xl" miw={80} variant="default">
+                  <IconShoppingCart />
+                  <Text fw={500} ml={10}>
+                    {cart?.length > 0
+                      ? cart.reduce((accumulator, currentValue) => {
+                          return accumulator + (currentValue?.count ?? 0);
+                        }, 0)
+                      : 0}
+                  </Text>
+                </ActionIcon>
+              </Link>
               <ColorSchemeToggle />
             </Group>
           </Group>
