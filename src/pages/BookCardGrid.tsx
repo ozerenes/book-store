@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import {
   ActionIcon,
   Badge,
@@ -11,115 +10,17 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { IconLibraryPhoto, IconShoppingCartMinus, IconShoppingCartPlus } from '@tabler/icons-react';
-import { Link, useParams } from 'react-router-dom';
-import api from '@/components/atoms/AxiosIns';
+import { Link } from 'react-router-dom';
 import { useBookVolumes, useSetBookVolumes } from '@/components/hooks/useData';
 import { notifications } from '@mantine/notifications';
-export interface BookVolume {
-  kind: string;
-  id: string;
-  etag: string;
-  selfLink: string;
-  volumeInfo: {
-    title: string;
-    authors: string[];
-    publisher: string;
-    publishedDate: string;
-    description: string;
-    readingModes: {
-      text: boolean;
-      image: boolean;
-    };
-    pageCount: number;
-    printType: string;
-    categories: string[];
-    maturityRating: string;
-    allowAnonLogging: boolean;
-    contentVersion: string;
-    panelizationSummary: {
-      containsEpubBubbles: boolean;
-      containsImageBubbles: boolean;
-    };
-    imageLinks: {
-      smallThumbnail: string;
-      thumbnail: string;
-    };
-    language: string;
-    previewLink: string;
-    infoLink: string;
-    canonicalVolumeLink: string;
-  };
-  saleInfo: {
-    country: string;
-    saleability: string;
-    isEbook: boolean;
-    listPrice: {
-      amount: number;
-      currencyCode: string;
-    };
-    retailPrice: {
-      amount: number;
-      currencyCode: string;
-    };
-    buyLink: string;
-    offers: {
-      finskyOfferType: number;
-      listPrice: {
-        amountInMicros: number;
-        currencyCode: string;
-      };
-      retailPrice: {
-        amountInMicros: number;
-        currencyCode: string;
-      };
-    }[];
-  };
-  accessInfo: {
-    country: string;
-    viewability: string;
-    embeddable: boolean;
-    publicDomain: boolean;
-    textToSpeechPermission: string;
-    epub: {
-      isAvailable: boolean;
-    };
-    pdf: {
-      isAvailable: boolean;
-      acsTokenLink: string;
-    };
-    webReaderLink: string;
-    accessViewStatus: string;
-    quoteSharingAllowed: boolean;
-  };
-  searchInfo: {
-    textSnippet: string;
-  };
-  count: number;
+import { BookVolume } from '@/components/atoms/BookType';
+
+interface BookCardGridProps {
+  data: BookVolume[];
 }
-export function BookCardGrid() {
-  const [data, setData] = useState<BookVolume[]>([]);
-  const { q } = useParams();
+export function BookCardGrid({ data }: BookCardGridProps) {
   const setCart = useSetBookVolumes();
   const cart = useBookVolumes();
-  async function fetchBookData() {
-    try {
-      const response = await api.get('/volumes', {
-        params: {
-          q: q,
-        },
-      });
-      setData(response?.data?.items);
-      console.log('Book data:', response.data);
-    } catch (error) {
-      console.error('Error fetching book data:', error);
-    }
-  }
-
-  useEffect(() => {
-    if (q) {
-      fetchBookData();
-    }
-  }, [q]);
 
   const addToCart = (item: BookVolume) => {
     let existItemCount = cart.filter((elem) => item.id === elem.id).length;
@@ -182,22 +83,35 @@ export function BookCardGrid() {
               </Card.Section>
 
               {item.saleInfo.saleability === 'FOR_SALE' && (
-                <Badge
-                  pos="absolute"
-                  top={15}
-                  right={15}
-                  variant="gradient"
-                  gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
-                >
-                  Stokta var
-                </Badge>
+                <>
+                  <Badge
+                    pos="absolute"
+                    top={15}
+                    left={15}
+                    variant="gradient"
+                    gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+                  >
+                    Stokta var
+                  </Badge>
+                  <Group pos="absolute" right={15} top={15} gap={5}>
+                    <ActionIcon onClick={() => removeToCart(item)}>
+                      <IconShoppingCartMinus />
+                    </ActionIcon>
+                    <ActionIcon pos="relative" onClick={() => addToCart(item)}>
+                      <IconShoppingCartPlus />
+                      <Badge pos="absolute" bottom={-18} left={-17} fz={12} mih={18}>
+                        {cart.find((elem) => elem.id === item.id)?.count ?? 0}
+                      </Badge>
+                    </ActionIcon>
+                  </Group>
+                </>
               )}
 
               {item.saleInfo.saleability === 'NOT_FOR_SALE' && (
                 <Badge
                   pos="absolute"
                   top={15}
-                  right={15}
+                  left={15}
                   variant="gradient"
                   gradient={{ from: 'orange', to: 'red', deg: 90 }}
                 >
@@ -210,12 +124,21 @@ export function BookCardGrid() {
                   {item.volumeInfo.title}
                 </Text>
               </Group>
-              <Text size="sm">
-                Yazar :{' '}
-                {item?.volumeInfo?.authors?.length > 0
-                  ? item?.volumeInfo?.authors?.map((elem) => elem)
-                  : '-'}
-              </Text>
+              <Tooltip
+                label={
+                  item?.volumeInfo?.authors?.length > 0
+                    ? item?.volumeInfo?.authors?.map((elem) => elem)
+                    : '-'
+                }
+              >
+                <Text size="sm" lineClamp={1}>
+                  Yazar :{' '}
+                  {item?.volumeInfo?.authors?.length > 0
+                    ? item?.volumeInfo?.authors?.map((elem) => elem)
+                    : '-'}
+                </Text>
+              </Tooltip>
+
               <Tooltip
                 maw={500}
                 multiline={true}
@@ -227,7 +150,7 @@ export function BookCardGrid() {
                 </Text>
               </Tooltip>
 
-              <Button color="blue" fullWidth mt="md" radius="md">
+              <Button variant="gradient" fullWidth mt="md" radius="md">
                 <Link
                   style={{
                     textDecoration: 'none',
@@ -238,13 +161,6 @@ export function BookCardGrid() {
                   Detay Göster
                 </Link>
               </Button>
-              <ActionIcon onClick={() => removeToCart(item)}>
-                <IconShoppingCartMinus />
-              </ActionIcon>
-              {cart.find((elem) => elem.id === item.id)?.count ?? 0}
-              <ActionIcon onClick={() => addToCart(item)}>
-                <IconShoppingCartPlus />
-              </ActionIcon>
             </Card>
           ))}
       </SimpleGrid>
