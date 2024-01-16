@@ -1,6 +1,6 @@
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAnimations, useGLTF } from '@react-three/drei';
 
 type GLTFResult = GLTF & {
@@ -56,14 +56,14 @@ export function Model() {
   const animationClip = useAnimations(animations, modelRef);
   const actions = animationClip.actions as GLTFActions;
 
-  const startAnimation = () => {
+  useEffect(() => {
     actions['Scene'].play();
-  };
+  }, []);
 
   return (
-    <group ref={modelRef} dispose={null} onClick={() => startAnimation()}>
+    <group ref={modelRef} dispose={null}>
       <group name="Sketchfab_Scene">
-        <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]} scale={0.18}>
+        <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]} scale={0.16}>
           <group
             name="e1794e6b43bb438fafae60ac0b4d6265fbx"
             rotation={[Math.PI / 2, -Math.PI / 1.5, -Math.PI / 20]}
