@@ -57,7 +57,7 @@ export interface BookVolume {
       };
     }[];
   };
-  accessInfo: {
+  accessInfo?: {
     country: string;
     viewability: string;
     embeddable: boolean;
@@ -74,8 +74,8 @@ export interface BookVolume {
     accessViewStatus: string;
     quoteSharingAllowed: boolean;
   };
-  searchInfo: {
+  searchInfo?: {
     textSnippet: string;
   };
-  count: number;
+  count?: number;
 }
