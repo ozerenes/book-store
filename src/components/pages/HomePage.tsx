@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BookCardGrid } from '@/pages/BookCardGrid';
+import { BookCardGrid } from '@/components/organisms/BookCardGrid';
 import { BookVolume } from '@/components/atoms/BookType';
 import api from '@/components/atoms/AxiosIns';
 import { GridSkeleton } from '@/components/molecules/GridSkeleton';

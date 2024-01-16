@@ -1,6 +1,6 @@
 import api from '@/components/atoms/AxiosIns';
 import { useEffect, useState } from 'react';
-import { BookCardGrid } from '@/pages/BookCardGrid';
+import { BookCardGrid } from '@/components/organisms/BookCardGrid';
 import { useParams } from 'react-router-dom';
 import { BookVolume } from '@/components/atoms/BookType';
 import { GridSkeleton } from '@/components/molecules/GridSkeleton';
