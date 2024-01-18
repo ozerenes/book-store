@@ -57,6 +57,18 @@ export function BookCardGrid({ data }: BookCardGridProps) {
                 </Badge>
               )}
 
+              {item.saleInfo.saleability === 'FREE' && (
+                <Badge
+                  pos="absolute"
+                  top={15}
+                  left={15}
+                  variant="gradient"
+                  gradient={{ from: 'green', to: 'cyan', deg: 90 }}
+                >
+                  Ücretsiz
+                </Badge>
+              )}
+
               <Group justify="space-between" mt="md" mb="xs">
                 <Text fw={500} size="sm" lineClamp={1}>
                   {item.volumeInfo.title}
