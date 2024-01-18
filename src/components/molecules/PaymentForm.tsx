@@ -1,6 +1,7 @@
 import { useForm } from '@mantine/form';
 import { NumberInput, TextInput, Button, Box, Flex, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { useSetBookVolumes } from '@/components/hooks/useData';
 
 interface PaymentFormProps {
   close: () => void;
@@ -17,17 +18,20 @@ export function PaymentForm({ close, totalMoney }: PaymentFormProps) {
       adress1: (value) => (value.length < 5 ? 'Adresiniz daha uzun olmalı!' : null),
     },
   });
+  const setCart = useSetBookVolumes();
 
   const submitForm = (values: any) => {
+    console.log(values);
     close();
     notifications.show({
       title: 'Satın alma işlemi başarı ile gerçekleşti.',
-      message: values,
+      message: 'Teşekkürler, iyi günler.',
       pos: 'fixed',
       bottom: 30,
       right: 30,
       color: 'blue',
     });
+    setCart([]);
   };
 
   return (
