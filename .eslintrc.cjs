@@ -1,24 +1,21 @@
 module.exports = {
-  sextends: [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
-  ],
-  extends: [
-    "plugin:@react-three/all",
-    "prettier",
-  ],
-  parser: "@typescript-eslint/parser",
-  plugins: [
-    "@typescript-eslint",
-    "plugin:@react-three/all",
-  ],
+  extends: ['mantine'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.json',
   },
   rules: {
     'react/react-in-jsx-scope': 'off',
+    'import/extensions': 'off',
+    'react/no-unknown-property': 'off',
+    'no-param-reassign': 'off',
   },
+  overrides: [
+    {
+      "files": ["tests/**/*"],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 };
