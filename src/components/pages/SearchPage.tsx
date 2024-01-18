@@ -1,7 +1,8 @@
-import api from '@/components/atoms/AxiosIns';
 import { useEffect, useState } from 'react';
-import { BookCardGrid } from '@/components/organisms/BookCardGrid';
 import { useParams } from 'react-router-dom';
+import { notifications } from '@mantine/notifications';
+import api from '@/components/atoms/AxiosIns';
+import { BookCardGrid } from '@/components/organisms/BookCardGrid';
 import { BookVolume } from '@/components/atoms/BookType';
 import { GridSkeleton } from '@/components/molecules/GridSkeleton';
 
@@ -9,15 +10,26 @@ export function SearchPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<BookVolume[]>([]);
   const { q } = useParams();
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const maxResults = 10;
+
   function fetchBookData() {
+    const startIndex = (currentPage - 1) * maxResults;
     api
       .get('/volumes', {
-        params: {
-          q: q,
-        },
+        params: { q, startIndex, maxResults },
       })
       .then((response) => setData(response?.data?.items))
-      .catch((error) => console.error('Error fetching book data:', error))
+      .catch((error) =>
+        notifications.show({
+          title: 'Kitap verisi getirilemedi:',
+          message: error,
+          pos: 'fixed',
+          bottom: 30,
+          right: 30,
+          color: 'red',
+        })
+      )
       .finally(() => setLoading(false));
   }
 
