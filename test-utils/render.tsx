@@ -1,4 +1,4 @@
-import { render as testingLibraryRender } from '@testing-library/react';
+import { render as testingLibraryRender, screen } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
 import { theme } from '../src/theme';
 
@@ -9,3 +9,5 @@ export function render(ui: React.ReactNode) {
     ),
   });
 }
+
+export { screen };
