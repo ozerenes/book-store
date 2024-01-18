@@ -57,7 +57,7 @@ export function Model() {
   const actions = animationClip.actions as GLTFActions;
 
   useEffect(() => {
-    actions['Scene'].play();
+    actions.Scene.play();
   }, []);
 
   return (

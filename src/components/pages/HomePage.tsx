@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { notifications } from '@mantine/notifications';
 import { BookCardGrid } from '@/components/organisms/BookCardGrid';
 import { BookVolume } from '@/components/atoms/BookType';
 import api from '@/components/atoms/AxiosIns';
@@ -15,7 +16,16 @@ export function HomePage() {
         },
       })
       .then((response) => setData(response?.data?.items))
-      .catch((error) => console.error('Error fetching book data:', error))
+      .catch((error) =>
+        notifications.show({
+          title: 'Kitap verisi getirilemedi:',
+          message: error,
+          pos: 'fixed',
+          bottom: 30,
+          right: 30,
+          color: 'red',
+        })
+      )
       .finally(() => setLoading(false));
   }
 

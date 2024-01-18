@@ -26,7 +26,7 @@ export function BookCardGrid({ data }: BookCardGridProps) {
                     }}
                   />
                 ) : (
-                  <IconLibraryPhoto width={'100%'} size={153} />
+                  <IconLibraryPhoto width="100%" size={153} />
                 )}
               </Card.Section>
 
@@ -91,7 +91,7 @@ export function BookCardGrid({ data }: BookCardGridProps) {
 
               <Tooltip
                 maw={500}
-                multiline={true}
+                multiline
                 label={item?.volumeInfo?.description ?? '-'}
                 hidden={!item?.volumeInfo?.description}
               >
@@ -105,7 +105,7 @@ export function BookCardGrid({ data }: BookCardGridProps) {
                   textDecoration: 'none',
                   color: '#fff',
                 }}
-                to={'/details/' + item.id}
+                to={`/details/${item.id}`}
               >
                 <Button variant="gradient" fullWidth mt="md" radius="md">
                   Detay Göster

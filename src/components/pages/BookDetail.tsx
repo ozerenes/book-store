@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import api from '@/components/atoms/AxiosIns';
 import { ActionIcon, Badge, Button, Flex, Group, Image, Text } from '@mantine/core';
 import { IconEyeglass, IconInfoSquare } from '@tabler/icons-react';
+import { notifications } from '@mantine/notifications';
+import api from '@/components/atoms/AxiosIns';
 import { Book } from '@/components/atoms/BookDetailType';
+
 interface FormatTurkishDateOptions {
   year?: 'numeric' | '2-digit';
   month?: 'numeric' | '2-digit';
@@ -15,14 +17,20 @@ export function BookDetail() {
   const { id } = useParams();
   const [data, setData] = useState<Book | null>();
 
-  async function fetchBookData() {
-    try {
-      const response = await api.get('/volumes/' + id, {});
-      console.log('Book data:', response.data);
-      setData(response.data);
-    } catch (error) {
-      console.error('Error fetching book data:', error);
-    }
+  function fetchBookData() {
+    api
+      .get(`/volumes/${id}`, {})
+      .then((response) => setData(response.data))
+      .catch((error) =>
+        notifications.show({
+          title: 'Kitap verisi getirilemedi:',
+          message: error,
+          pos: 'fixed',
+          bottom: 30,
+          right: 30,
+          color: 'red',
+        })
+      );
   }
 
   useEffect(() => {
@@ -68,7 +76,7 @@ export function BookDetail() {
             size={40}
             variant="gradient"
             radius={0}
-            component={'a'}
+            component="a"
             href={data?.volumeInfo?.previewLink}
             gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
           >
@@ -81,7 +89,7 @@ export function BookDetail() {
             size={40}
             variant="gradient"
             radius={0}
-            component={'a'}
+            component="a"
             href={data?.volumeInfo?.infoLink}
             gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
           >
@@ -90,9 +98,9 @@ export function BookDetail() {
           <Button
             variant="gradient"
             radius={0}
-            component={'a'}
+            component="a"
             href={data?.saleInfo?.buyLink}
-            w={'100%'}
+            w="100%"
             gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
           >
             Satın Al

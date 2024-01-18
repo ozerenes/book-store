@@ -8,7 +8,7 @@ interface PaymentFormProps {
 }
 export function PaymentForm({ close, totalMoney }: PaymentFormProps) {
   const form = useForm({
-    validateInputOnChange: ['email', 'name', `adress1`, 'adress2'],
+    validateInputOnChange: ['email', 'name', 'adress1', 'adress2'],
     initialValues: { name: '', email: '', age: 0, adress1: '', adress2: '' },
     validate: {
       name: (value) => (value.length < 2 ? 'İsminiz en az 2 harften oluşmalı!' : null),
@@ -19,11 +19,10 @@ export function PaymentForm({ close, totalMoney }: PaymentFormProps) {
   });
 
   const submitForm = (values: any) => {
-    console.log(values);
     close();
     notifications.show({
       title: 'Satın alma işlemi başarı ile gerçekleşti.',
-      message: 'Keyifli alışverişler dileriz.',
+      message: values,
       pos: 'fixed',
       bottom: 30,
       right: 30,
@@ -61,7 +60,7 @@ export function PaymentForm({ close, totalMoney }: PaymentFormProps) {
           placeholder="Adres 2"
           {...form.getInputProps('adress2')}
         />
-        <Flex justify="flex-end" w={'100%'} align="center" gap={15}>
+        <Flex justify="flex-end" w="100%" align="center" gap={15}>
           <Text mb={-12}>Toplam : {totalMoney.toFixed()} TRY</Text>
           <Button type="submit" mt="sm">
             Satın Al

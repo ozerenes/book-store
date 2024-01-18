@@ -1,7 +1,7 @@
-import { BookVolume } from '@/components/atoms/BookType';
 import { notifications } from '@mantine/notifications';
 import { ActionIcon, Badge, Group } from '@mantine/core';
 import { IconShoppingCartMinus, IconShoppingCartPlus } from '@tabler/icons-react';
+import { BookVolume } from '@/components/atoms/BookType';
 import { useBookVolumes, useSetBookVolumes } from '@/components/hooks/useData';
 
 interface CartAddRemoveProps {
@@ -11,9 +11,11 @@ interface CartAddRemoveProps {
 export function CartAddRemoveItem({ item }: CartAddRemoveProps) {
   const cart = useBookVolumes();
   const setCart = useSetBookVolumes();
-  const addToCart = (item: BookVolume) => {
-    let existItemCount = cart.find((elem) => item.id === elem.id);
-    item.count = (existItemCount?.count ?? 0) + 1;
+  const addToCart = () => {
+    const existItem = cart.find((elem) => item.id === elem.id);
+    const newCount = (existItem?.count ?? 0) + 1;
+    const newItem = { ...item, count: newCount };
+
     notifications.show({
       title: 'Ürün sepete eklendi.',
       message: 'Keyifli alışverişler dileriz.',
@@ -22,22 +24,17 @@ export function CartAddRemoveItem({ item }: CartAddRemoveProps) {
       right: 30,
       color: 'blue',
     });
-    if (item.count === 1) {
-      setCart([...cart, item]);
+    if (!existItem) {
+      setCart([...cart, newItem]);
     } else {
-      let newCart = cart.map((elem) => {
-        if (item.id === elem.id) {
-          return { ...item, count: item.count };
-        }
-        return elem;
-      });
-      setCart([...newCart]);
+      const newCart = cart.map((elem) => (item.id === elem.id ? newItem : elem));
+      setCart(newCart);
     }
   };
 
-  const removeToCart = (item: BookVolume) => {
+  const removeToCart = () => {
     let updatedCart = [...cart];
-    let existItem = updatedCart.find((elem) => item.id === elem.id);
+    const existItem = updatedCart.find((elem) => item.id === elem.id);
 
     if (existItem) {
       if (existItem.count && existItem.count > 1) {
@@ -64,7 +61,7 @@ export function CartAddRemoveItem({ item }: CartAddRemoveProps) {
       <ActionIcon
         variant="gradient"
         gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
-        onClick={() => removeToCart(item)}
+        onClick={() => removeToCart()}
       >
         <IconShoppingCartMinus />
       </ActionIcon>
@@ -72,7 +69,7 @@ export function CartAddRemoveItem({ item }: CartAddRemoveProps) {
         variant="gradient"
         gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
         pos="relative"
-        onClick={() => addToCart(item)}
+        onClick={() => addToCart()}
       >
         <IconShoppingCartPlus />
         <Badge

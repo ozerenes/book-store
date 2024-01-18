@@ -1,21 +1,19 @@
-import { Group, Avatar, Text, Accordion, Badge, Box, Button, Modal } from '@mantine/core';
+import { Group, Avatar, Text, Accordion, Box, Button, Modal } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { useBookVolumes } from '@/components/hooks/useData';
 import { BookVolume } from '@/components/atoms/BookType';
 import { CartAddRemoveItem } from '@/components/molecules/CartAddRemoveItem';
-import { useDisclosure } from '@mantine/hooks';
 import { PaymentForm } from '@/components/molecules/PaymentForm';
-import { useEffect } from 'react';
 
 interface AccordionLabelProps {
   label: string;
   image: string;
   description: string;
   price?: string;
-  count?: number;
   item: BookVolume;
 }
 
-function AccordionLabel({ label, image, description, price, count, item }: AccordionLabelProps) {
+function AccordionLabel({ label, image, description, price, item }: AccordionLabelProps) {
   return (
     <Group wrap="nowrap" gap={0}>
       <Box pos="relative">
@@ -42,12 +40,11 @@ export function CartDetail() {
   const [opened, { open, close }] = useDisclosure(false);
 
   const reduceTotalMoney = () => {
-    const totalMoney = cart.reduce((accumulator, currentValue) => {
-      console.log(currentValue.saleInfo.listPrice.amount);
-      return (
-        accumulator + (currentValue.saleInfo.listPrice.amount * (currentValue?.count ?? 1) ?? 0)
-      );
-    }, 0);
+    const totalMoney = cart.reduce(
+      (accumulator, currentValue) =>
+        accumulator + (currentValue.saleInfo.listPrice.amount * (currentValue?.count ?? 1) ?? 0),
+      0
+    );
     return totalMoney;
   };
 
@@ -57,12 +54,9 @@ export function CartDetail() {
         label={item.volumeInfo.title}
         description={item.volumeInfo.authors.join(', ')}
         image={item.volumeInfo.imageLinks.thumbnail}
-        price={
-          (Number(item.saleInfo.listPrice.amount) * (item?.count ?? 1)).toFixed(2).toString() +
-          ' ' +
-          item?.saleInfo?.listPrice?.currencyCode
-        }
-        count={item?.count ?? 0}
+        price={`${(Number(item.saleInfo.listPrice.amount) * (item?.count ?? 1))
+          .toFixed(2)
+          .toString()} ${item?.saleInfo?.listPrice?.currencyCode}`}
         item={item}
       />
       <Accordion.Panel>
