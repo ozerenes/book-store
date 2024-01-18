@@ -5,6 +5,8 @@ import api from '@/components/atoms/AxiosIns';
 import { BookCardGrid } from '@/components/organisms/BookCardGrid';
 import { BookVolume } from '@/components/atoms/BookType';
 import { GridSkeleton } from '@/components/molecules/GridSkeleton';
+import { Flex } from '@mantine/core';
+import { CustomPagination } from '@/components/atoms/CustomPagination';
 
 export function SearchPage() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -35,9 +37,23 @@ export function SearchPage() {
 
   useEffect(() => {
     if (q) {
+      setLoading(true);
       fetchBookData();
     }
-  }, [q]);
+  }, [q, currentPage]);
 
-  return loading ? <GridSkeleton /> : <BookCardGrid data={data} />;
+  return loading ? (
+    <GridSkeleton />
+  ) : (
+    <Flex direction="column" gap={15}>
+      <BookCardGrid data={data} />
+      <Flex justify="flex-end">
+        <CustomPagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          maxResults={maxResults}
+        />
+      </Flex>
+    </Flex>
+  );
 }
