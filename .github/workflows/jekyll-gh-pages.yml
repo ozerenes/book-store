@@ -53,6 +53,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dist
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
       - name: Checkout
         uses: actions/checkout@v4
       - name: Deploy to GitHub Pages
