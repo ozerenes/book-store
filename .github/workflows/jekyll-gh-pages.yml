@@ -3,7 +3,7 @@ name: Deploy React App with GitHub Pages dependencies preinstalled
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main"] # Change to your main branch name
+    branches: ["master"] # Change to your main branch name
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -30,11 +30,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 14 # Choose the Node.js version you need
+          node-version: 18 # Choose the Node.js version you need
       - name: Install dependencies
-        run: npm install # Or yarn install, depending on your project
+        run: yarn install # Or yarn install, depending on your project
       - name: Build React App
-        run: npm run build # Or yarn build, depending on your project
+        run: yarn run build # Or yarn build, depending on your project
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
@@ -55,5 +55,5 @@ jobs:
         id: deployment
         uses: JamesIves/github-pages-deploy-action@4.2.0 # Choose a suitable action for deploying, like the 'github-pages-deploy-action'
         with:
-          branch: gh-pages # Change to your GitHub Pages branch
-          folder: build # Change to your build output folder
+          branch: master # Change to your GitHub Pages branch
+          folder: dist # Change to your build output folder
