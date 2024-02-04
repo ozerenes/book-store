@@ -58,8 +58,6 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: Deploy to GitHub Pages
         id: deployment
         uses: JamesIves/github-pages-deploy-action@4.2.0 # Choose a suitable action for deploying, like the 'github-pages-deploy-action'
