@@ -35,6 +35,8 @@ jobs:
         run: yarn install # Or yarn install, depending on your project
       - name: Build React App
         run: yarn run build # Or yarn build, depending on your project
+      - name: Delete node modules
+        run: rm -rf node_modules
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
