@@ -49,7 +49,7 @@ type GLTFResult = GLTF & {
 };
 type ActionName = 'Scene';
 type GLTFActions = Record<ActionName, THREE.AnimationAction>;
-const gltfPath = `${import.meta.env.VITE_BASE_URL}/libro_arcano_animado.glb`;
+const gltfPath = `./libro_arcano_animado.glb`;
 export function Model() {
   const modelRef = useRef<THREE.Group>(null);
   const { nodes, materials, animations } = useGLTF(gltfPath) as unknown as GLTFResult;
