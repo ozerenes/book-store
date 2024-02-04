@@ -37,4 +37,5 @@ jobs:
         id: deployment
         uses: JamesIves/github-pages-deploy-action@4.2.0
         with:
+          branch: master
           folder: ./dist
