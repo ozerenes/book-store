@@ -63,4 +63,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.2.0 # Choose a suitable action for deploying, like the 'github-pages-deploy-action'
         with:
           branch: master # Change to your GitHub Pages branch
-          folder: dist # Change to your build output folder
+          folder: ./ # Change to your build output folder
